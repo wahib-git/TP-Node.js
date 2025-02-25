@@ -1,16 +1,31 @@
 const express = require("express");
 const app = express();
-const port = 7000;
+const mongoose = require("mongoose");
+const userRoute = require("./routes/user.route");
+require("dotenv").config();
 
 // Middleware to parse JSON requests
 app.use(express.json());
+
+// Connect to MongoDB
+mongoose
+  .connect(process.env.MONGO_URI) //connect to the database
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.log("Failed to connect to MongoDB", err);
+  });
 
 // Define a simple route
 app.get("/", (req, res) => {
   res.send("Hello, Express!");
 });
 
+app.use("/users", userRoute);
+
+port = process.env.PORT || 7000;
 // Start the server
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  console.log("Server is listening on " + port);
 });
