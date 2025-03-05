@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const userRoute = require("./routes/user.route");
 require("dotenv").config();
+const AuthRoute = require("./routes/auth.routes");
 
 // Middleware to parse JSON requests
 app.use(express.json());
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", userRoute);
+app.use("/auth", AuthRoute);
 
 port = process.env.PORT || 7000;
 // Start the server
